@@ -1,0 +1,21 @@
+{# accounts/templates/accounts/dashboard.html #}
+{% extends 'riseup_templates/base.html' %}
+
+{% block title %}User Dashboard{% endblock title %}
+
+{% block content %}
+<div class="container mt-5 pt-5"> {# Add padding top if base template has fixed navbar #}
+    <h1>Welcome to your Dashboard, {{ user.first_name|default:user.username }}!</h1>
+    <p>This is your personal space.</p>
+    
+    <p>Your email: {{ user.email }}</p>
+    <p>Your generated username: {{ user.username }}</p> {# Display the actual username #}
+    
+    <hr>
+    
+    <form action="{% url 'accounts:logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Log Out</button>
+    </form>
+</div>
+{% endblock content %}
