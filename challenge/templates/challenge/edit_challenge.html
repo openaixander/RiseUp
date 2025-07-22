@@ -1,0 +1,161 @@
+{% extends 'riseup_templates/base.html' %}
+{% load static %}
+
+{% block title %}
+    RiseUp - Edit Challenge
+{% endblock title %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'challenge/styles/edit_challenge.css' %}">
+{% endblock css %}
+
+{% block content %}
+    <!-- Main Content -->
+    <div class="container" style="margin-top: 6rem;">
+        <!-- Header Banner -->
+        <div class="header-banner mb-4">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1>Edit Your Challenge</h1>
+                    <p>Customize your journey to better align with your goals and needs.</p>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-lg-end mt-3 mt-lg-0">
+                    <a href="{% url 'dashboard:dashboard' %}" class="btn btn-light rounded-pill px-4">
+                        <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <!-- Edit Challenge Form -->
+                <div class="card edit-challenge-card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Challenge Details</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in  form.non_field_errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <form id="edit-challenge-form" method="POST" action="{% url 'challenge:edit_challenge' challenge_id=challenge.id %}">
+                            {% csrf_token %}
+                            <!-- Challenge Name -->
+                            <div class="mb-4">
+                                <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+                                {{ form.name }}
+                                {% if form.name.help_text %}
+                                    <div class="form-text">{{ form.name.help_text }}</div>
+                                {% endif %}
+                                {% for error in form.name.errors %}
+                                    <div class="text-danger"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Challenge Duration -->
+                            <div class="mb-4">
+                                <label class="form-label">{{ form.duration_days.label }}</label>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <div class="option-card text-center" data-duration-option="30">
+                                            <div class="option-icon">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
+                                            <h5 class="option-title">30 Days</h5>
+                                            <p class="option-description">Standard challenge duration</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option-card text-center" data-duration-option="custom">
+                                            <div class="option-icon">
+                                                <i class="fas fa-sliders-h"></i>
+                                            </div>
+                                            <h5 class="option-title">Custom</h5>
+                                            <p class="option-description">Set your own timeframe</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="custom-duration-container" class="mt-3" style="display: none;">
+                                    {{ form.duration_days }}
+                                </div>
+                                {% if form.duration_days.help_text %}
+                                    <div class="form-text mt-2">{{ form.duration_days.help_text }}</div>
+                                {% endif %}
+                                {% for error in form.duration_days.errors %}
+                                    <div class="text-danger"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Start Date -->
+                            <div class="mb-4">
+                                <label for="{{ form.start_date.id_for_label }}" class="form-label">{{ form.start_date.label }}</label>
+                                {{ form.start_date }}
+                                <div class="form-text">
+                                    Current: {{ challenge.start_date|date:"Y-m-d" }}.
+                                    {% if form.start_date.help_text %}
+                                        {{ form.start_date.help_text }}
+                                    {% endif %}
+                                </div>
+                                {% for error in form.start_date.errors %}
+                                    <div class="text-danger"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Notifications -->
+                            <div class="mb-4">
+                                <label class="form-label">Notification Settings</label>
+                                <div class="form-check mb-2">
+                                    {{ form.enable_daily_reminder }}
+                                    <label class="form-check-label" for="{{ form.enable_daily_reminder.id_for_label }}">
+                                        {{ form.enable_daily_reminder.label }}
+                                    </label>
+                                    {% for error in form.enable_daily_reminder.errors %}
+                                        <div class="text-danger"><small>{{ error }}</small></div>
+                                    {% endfor %}
+                                </div>
+                                <div id="reminder-time-container" class="mt-3" style="display: none;"> {# JS will toggle this #}
+                                    <label for="{{ form.reminder_time.id_for_label }}" class="form-label">{{ form.reminder_time.label }}</label>
+                                    {{ form.reminder_time }} {# Widget type='time' is set in forms.py #}
+                                    {% if form.reminder_time.help_text %}
+                                        <div class="form-text">{{ form.reminder_time.help_text }}</div>
+                                    {% endif %}
+                                    {% for error in form.reminder_time.errors %}
+                                        <div class="text-danger"><small>{{ error }}</small></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            
+                        </form>
+                    </div>
+                    <div class="card-footer d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+                        <form id="deleteChallengeForm" action="{% url 'challenge:delete_challenge' challenge_id=challenge.id %}" method="POST" style="display: none;">
+                            {% csrf_token %}
+                        </form>
+                        <button type="button" id="deleteChallengeBtn" class="btn btn-outline-danger rounded-pill px-4 w-100 w-sm-auto">
+                            <i class="fas fa-trash me-2"></i> Delete Challenge
+                        </button>
+
+                        <div class="d-flex flex-column flex-sm-row gap-2 w-100 w-sm-auto">
+                            <a href="{% url 'dashboard:dashboard' %}" class="btn btn-outline-secondary rounded-pill px-4">
+                                Cancel
+                            </a>
+                            <button type="submit" form="edit-challenge-form" class="btn btn-primary rounded-pill px-4">
+                                <i class="fas fa-save me-2"></i> Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static 'challenge/js/edit_challenge.js' %}"></script>
+{% endblock script %}

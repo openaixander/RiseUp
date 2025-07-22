@@ -1,0 +1,180 @@
+{% extends 'riseup_templates/base.html' %}
+{% load static %}
+{% load static challenge_tags humanize %}
+
+
+{% block title %}
+    RiseUp Community - Your Support Network
+{% endblock title %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'community/styles/community_list.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+
+    {% include 'riseup_templates/includes/html_docs/alerts.html' %}
+    <!-- Page Header -->
+    <div class="container mt-5">
+        <div class="page-header">
+            <div class="container">
+                <h1>Community Forum</h1>
+                <p>A safe space to share your journey, learn from others, and find the support you need.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Forum Posts -->
+            <div class="col-lg-8">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="h5 fw-bold mb-0">Recent Discussions</h2>
+                    <a href="{% url 'community:create_post' %}" class="btn btn-primary rounded-pill px-4">New Post</a>
+                </div>
+                
+                <div id="like-messages" class="mb-2"></div>
+                
+
+                {% for post in posts_page.object_list %}
+                <div class="community-thread" id="post-{{ post.pk }}">
+                    <h3 class="thread-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+                    <div class="thread-meta">
+                        <span>
+                            <!-- checks for anonymity -->
+                        {% if post.is_anonymous %}
+                            <i class="fas fa-user-circle"></i> Anonymous
+                            {% else %}
+                            <!-- optionally display avatar -->
+                            {% if post.author.profile.avatar %}
+                                <img src="{{ post.author.profile.avatar.url }}" alt="" class="user-avatar me-1" style="width: 20px; height: 20px; border-radius: 40px;">
+                            {% else %}
+                                <i class="fas fa-user-circle"></i>
+                            {% endif %}
+                            {{ post.author.username }}
+                        {% endif %}
+                        </span> • 
+                        <span>Posted {{ post.created_at|timesince }} ago</span>
+                    </div>
+                    <div class="thread-preview">
+                        {{ post.body|truncatewords:35|linebreaksbr }}
+                    </div>
+                    <div class="thread-stats">
+                        <span>
+                            <i class="fas fa-comment"></i>
+                            <span id="comment-count-{{ post.pk }}">{{ post.comments.count }}</span> replies
+                        </span>
+                        <span class="like-section ms-3">
+                            <button class="like-button {% if post.pk in liked_post_ids %}like{% endif %}" data-post-id="{{ post.pk }}" aria-label="Like this post">
+                                    <i class="fas fa-heart"></i>
+                            </button>
+                            <span class="ms-1" id="like-count-{{ post.pk }}">
+                                {{ post.likes.count }}
+                            </span> likes
+                        </span>
+                    </div>
+                </div>
+                
+                {% empty %}
+                <div class="alert alert-info">No posts have been made in the community yet. Be the first!</div>
+                {% endfor %}
+
+            <!-- pagination -->
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center" >
+                    {% if posts_page.has_previous %}
+                        <li class="page-item">
+                            <a href="?page=1" aria-label="First" class="page-link">
+                                <span aria-hidden="true">&laquo;&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a href="?page={{ post_page.previous_page_number }}" aria-label="Previous" class="page-link">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&laquo;&laquo;</span>
+                        </li>
+                        <li class="page-item disabled">
+                            <span class="page-link">&laquo;</span>
+                        </li>
+                    {% endif %}
+
+                    <!-- Display current page and surrounding page -->
+                    {% for num in posts_page.paginator.page_range %}
+                        {% if posts_page.number == num %}
+                            <li aria-current="page" class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                    {% elif num > posts_page.number|add:'-3' and num < posts_page.number|add:'3' %}
+                            <li class="page-item">
+                                <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                            </li>
+                    {% elif num == posts_page.number|add:'-3' or num == posts_page.number|add:'3' %}
+                            <li class="disabled page-item">
+                                <span class="page-link">...</span>
+                            </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if posts_page.has_next %}
+                    <li class="page-item">
+                        <a href="?page={{ posts_page.next_page_number }}" aria-label="Next" class="page-link">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ posts_page.paginator.num_pages }}" aria-label="Last" class="page-link">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&raquo;</span>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">&raquo;&raquo;</span>
+                    </li>
+                {% endif %}
+                </ul>
+            </nav>
+        </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4 sidebar">
+                <!-- Community Rules -->
+                <div class="sidebar-card">
+                    <h5>Community Guidelines</h5>
+                    <ul class="community-rules ps-3">
+                        <li>Be respectful and kind to all members</li>
+                        <li>No shaming or judgment - we're all on our own journey</li>
+                        <li>Keep all discussions anonymous - no personal identifying info</li>
+                        <li>No explicit content or links that could trigger others</li>
+                        <li>Support each other with compassion</li>
+                    </ul>
+                </div>
+                
+                <!-- Quote of the Day -->
+                <div class="sidebar-card">
+                    <h5>Today's Motivation</h5>
+                    <p class="quote-text">"Every moment is a fresh beginning. It's never too late to become who you might have been."</p>
+                    <p class="quote-author">— T.S. Eliot</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile New Post Button -->
+    <a href="{% url 'community:create_post' %}" aria-label="Create New Post" class="new-post-btn d-lg-none">
+        <i class="fas fa-plus"></i>
+    </a>
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static 'community/js/community_list.js' %}"></script>
+{% endblock script %}

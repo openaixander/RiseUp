@@ -1,0 +1,39 @@
+
+{% load humanize %}
+
+<div class="reply-card" id="comment-{{ comment.pk }}">
+    <div class="reply-header">
+        <div class="reply-author">
+            <div class="author-avatar">
+                <!-- {# Show avatar or placeholder based on anonymity #} -->
+                {% if comment.is_anonymous %}
+                    <i class="fas fa-user-secret"></i> <!--{# Anonymous icon #} -->
+                {% else %}
+                     {% if comment.author.profile.avatar %}
+                        <img src="{{ comment.author.profile.avatar.url }}" alt="" class="user-avatar" style="width: 32px; height: 32px; border-radius: 50%;">
+                     {% else %}
+                        <i class="fas fa-user-circle"></i> <!--{# Default icon #} -->
+                     {% endif %}
+                {% endif %}
+            </div>
+            <div class="ms-2">
+                <!-- {# Show username or Anonymous #} -->
+                <div>{{ comment.get_display_author }}</div>
+                <div class="reply-time">{{ comment.created_at|timesince }} ago</div>
+            </div>
+        </div>
+        <!-- {# Optional: Display user badges if implemented later #} -->
+        {# <span class="badge-custom">90+ Days</span> #}
+    </div>
+    <div class="reply-content">
+        {{ comment.body|linebreaksbr }} {# Render comment body safely #}
+    </div>
+    <div class="reply-footer">
+        <!-- {# Comment Like button - deferred for now #} -->
+        <button class="action-btn comment-like-btn" data-comment-id="{{ comment.pk }}">
+            <i class="far fa-heart"></i>
+            <span>0</span>
+        </button>
+         <!-- {# Add Edit/Delete buttons later if needed, checking permissions: {% if comment.author == user %} ... {% endif %} #} -->
+    </div>
+</div>

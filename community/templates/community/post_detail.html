@@ -1,0 +1,178 @@
+{% extends 'riseup_templates/base.html' %}
+{% load static challenge_tags humanize %}
+
+{% load static %}
+{% block title %}
+    {{ post.title }} - Post Detail
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'community/styles/post_detail.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'community:community_list' %}">Community</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ post.title|truncatechars:50 }}</li>
+            </ol>
+        </nav>
+
+        <!-- Include Django errors here -->
+         <!-- Using the create post errors for it is the same thing -->
+        {% include 'community/includes/html_docs/error_create_post.html' %}
+        
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Post Container -->
+                <div class="post-container" id="post-{{ post.pk }}">
+                    <div class="post-header">
+                        <h1 class="post-title">{{ post.title }}</h1>
+                        <div class="post-meta">
+                            <div class="post-author">
+                                <div class="post-author-avatar">
+                                    {% if post.is_anonymous %}
+                                        <img src="{% static 'accounts/images/avatar.jpg' %}" 
+                                             alt="Anonymous User"
+                                             class="rounded-circle profile-pic">
+                                    {% else %}
+                                        {% if post.author.profile.avatar %}
+                                            <img src="{{ post.author.profile.avatar.url }}" 
+                                                 alt="{{ post.author.username }}'s avatar"
+                                                 class="rounded-circle profile-pic">
+                                        {% else %}
+                                            <img src="{% static 'accounts/images/default_avatar.png' %}" 
+                                                 alt="Default avatar"
+                                                 class="rounded-circle profile-pic">
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                <span>{{ post.get_display_author }}</span>|
+                            </div>
+                            <span>Posted {{ post.created_at|timesince }} ago</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        {{ post.body|linebreaksbr }}
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-actions">
+                            <!-- enable like button(AJAX enabled) -->
+                            <button class="action-btn like-button {% if user_liked_post %}like{% endif %}" data-post-id="{{ post.pk }}" aria-label="Like this post" {% if not user.is_authenticated %}disabled title="Login to like posts"{% endif %}>
+                                <i class="{% if user_liked_post %}fas{% else %}far{% endif %} fa-heart"></i>
+                                <span id="like-count-{{ post.pk }}">{{ post.likes.count }}</span> Likes
+                            </button>
+                            <button class="action-btn" aria-label="Number of replies">
+                                <i class="far fa-comment"></i>
+                                <span id="comment-count-{{ post.pk }}">{{ comments|length }}</span> Replies
+                            </button>
+                            <button class="action-btn" disabled title="Save feature coming soon">
+                                <i class="far fa-bookmark"></i>
+                                <span>Save</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reply Form -->
+                {% if user.is_authenticated %}
+                <div class="comment-form">
+                    <h3>Add Your Reply</h3>
+                    <div id="comment-form-error" class="text-danger mb-2"></div>
+                    <form id="comment-form" method="POST" action="{% url 'community:ajax_add_comment' pk=post.pk %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ comment_form.body }}
+                            {% if comment_form.body.errors %}
+                                <div class="invalid-feedback d-block">{{ comment_form.body.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" id="submit-comment-btn" class="btn btn-primary px-4">Post Reply</button>
+                        </div>
+                    </form>
+                </div>
+                {% else %}
+                <div class="comment-form">
+                    <p class="text-center text-muted">
+                        <a href="{% url 'accounts:login' %}?next={{ request.path }}">Log in</a> to post a reply.
+                    </p>
+                </div>
+                {% endif %}
+
+
+                <!-- Replies Section -->
+                <div class="replies-container">
+                    <div class="replies-header">
+                        <h3 id="replies-header-text">Replies {{ comments|length }}</h3>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Sort by: Newest
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                                <li><a class="dropdown-item" href="#">Newest</a></li>
+                                <li><a class="dropdown-item" href="#">Oldest</a></li>
+                                <!-- <li><a class="dropdown-item" href="#">Most Liked</a></li> -->
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div id="comments-list">
+                        {% for comment in comments %}
+                            {% include 'community/includes/html_docs/comment_snippet.html' with comment=comment user=user %}
+                        {% empty %}
+                            <div id="no-comments-message" class="text-center text-muted mt-3 mb-3">
+                                <p>No replies yet. Be the first to share your thoughts!</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="col-lg-4 sidebar">
+                <!-- Related Threads -->
+                <div class="sidebar-card">
+                    <h5>Similar Discussions</h5>
+                    {% for similar_post in similar_posts %}
+                    <div class="related-thread">
+                        <div class="thread-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="thread-info">
+                            <a href="{{ similar_post.get_absolute_url }}">{{ similar_post.title }}</a>
+                            <div class="thread-meta-info">
+                                <span>{{ similar_post.comments.count }} replies</span> • 
+                                <span>{{ similar_post.created_at|timesince }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                        <p class="text-muted">No similar discussions found.</p>
+                    {% endfor %}
+                </div>
+                
+                <!-- Quote of the Day -->
+                <div class="sidebar-card">
+                    <h5>Today's Motivation</h5>
+                    <p class="quote-text">"The pain of discipline is nothing like the pain of disappointment."</p>
+                    <p class="quote-author">— Justin Westhoff</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if show_toast and toast_achievement %}
+        {% block script %}
+            <script src="{% static 'community/js/achievement_toast.js' %}"></script>
+        {% endblock script %}
+    {% endif %}
+    
+    <script src="{% static 'community/js/post_detail.js' %}"></script>
+   
+{% endblock content %}
+

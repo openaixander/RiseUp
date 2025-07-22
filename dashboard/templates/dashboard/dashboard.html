@@ -1,0 +1,282 @@
+{% extends 'riseup_templates/base.html' %}
+{% load static %}
+
+{% load challenge_tags %}
+
+{% block title %}
+    RiseUp - User Dashboard
+{% endblock title %}
+
+
+{% block css %}
+   <link rel="stylesheet" href="{% static 'dashboard/styles/dashboard.css' %}"> 
+{% endblock css %}
+
+
+{% block content %}
+
+    <!-- Main Content -->
+    {% include 'riseup_templates/includes/html_docs/alerts.html' %}
+    <div class="container" style="margin-top: 6rem;">
+        <!-- Welcome Header -->
+        <div class="dashboard-welcome mb-4">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1>Welcome back, {{ user.first_name|default:user.username }}!</h1>
+                    {% if active_challenge %}
+                    <p>Day {{ active_challenge.current_day_number }} of your journey – Keep pushing! You're making great progress.</p>
+                    {% else %}
+                    <p>Ready to start a new journey? <a class="text-white" href="{% url 'challenge:create_challenge' %}">Create a challenge</a></p>
+                    {% endif %}
+                </div>
+                <!-- <div class="col-lg-4 d-flex justify-content-lg-end mt-3 mt-lg-0">
+                    <a href="#" class="btn btn-light rounded-pill px-4">View Progress Report</a>
+                </div> -->
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-lg-8">
+                <!-- Current Challenge Summary -->
+                 {% if active_challenge %}
+                <div class="card challenge-card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Current Challenge</h5>
+                        <a href="{% url 'challenge:edit_challenge' active_challenge.id %}" class="btn btn-outline-primary btn-sm rounded-pill">Edit Challenge</a>
+                    </div>
+                    <div class="card-body">
+                        <h4>{{ active_challenge.name }}</h4>
+                        <div class="d-flex justify-content-between text-muted mb-2">
+                            <div>Started: {{ active_challenge.start_date|date:"F j, Y" }}</div>
+                            <div>Ends: {{ active_challenge.end_date|date:"F j, Y" }}</div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{ active_challenge.progress_percentage }}%" aria-valuenow="{{ active_challenge.progress_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="badge bg-primary rounded-pill">✅ Day {{ active_challenge.current_day_number }} / {{ active_challenge.duration_days }} Days</span>
+                            <span class="text-muted">{{ active_challenge.progress_percentage|floatformat:2 }}% Complete</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Check-In -->
+                <div class="card mb-4">
+                    <div class="card-body check-in-card">
+                        <h4>Daily Check-In</h4>
+                        <p class="text-muted">Record your progress for today, {{ today_date|date:"F j, Y" }}</p>
+
+                        <form action="{% url 'dashboard:dashboard' %}" method="POST">
+                            {% csrf_token %}
+                            {% if today_log_status == 'CLEAN' %}
+                                <button class="btn btn-success check-in-btn rounded-pill disabled" disabled style="padding: 1.25rem; font-size: 1.1rem; font-weight: 700; width: 100%;">
+                                    <i class="fas fa-check-circle me-2"></i> Checked In Clean Today!
+                                </button>
+                                <p class="text-success fw-bold mb-0"  style="display: none;">
+                                    Awesome! You're staying strong!
+                                </p>
+                            {% elif today_log_status == 'RELAPSE' %}
+                                <button class="btn btn-secondary check-in-btn rounded-pill disabled mt-3 mb-3" disabled style="padding: 1.25rem; font-size: 1.1rem; font-weight: 700; width: 100%;">
+                                    <i class="fas fa-exclamation-circle me-2"></i> Relapse Recorded Today!
+                                </button>
+                                <p class="text-muted fw-bold mt-3 mb-0"  style="display: none;">
+                                    It's okay. Acknowledge it and prepare to start fresh tomorrow.
+                                </p>
+                            {% else %} {# No log for today yet #}
+                                <button type="submit" name="action" value="check_in_clean" class="btn btn-success check-in-btn rounded-pill">
+                                    <i class="fas fa-check-circle me-2"></i> I Stayed Clean Today
+                                </button>
+                                <a href="{% url 'dashboard:log_relapse_confirm' %}" class="btn btn-outline-danger rounded-pill mt-3 mb-3" style="padding: 1.25rem; font-size: 1.1rem; font-weight: 700; width: 100%;">
+                                    <i class="fas fa-exclamation-circle me-2"></i> I Had a Relapse Today
+                                </a>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+
+                {% else %} <!-- no active challenge -->
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <h4>No Active Challenge</h4>
+                            <p class="text-muted">You don't have an active challenge right now.</p>
+                            <a href="{% url 'challenge:create_challenge' %}" class="btn btn-primary rounded-pill">
+                            <i class="fas fa-plus me-2"></i> Create a New Challenge
+                            </a>
+                        </div>
+                    </div>
+                {% endif %} <!-- End of Current Challenge Summary -->
+
+                 <!-- Progress Overview -->   
+
+
+                <!-- Streak Tracker -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Streak Tracker</h5>
+                    </div>
+                    <div class="card-body streak-card">
+                        <div class="row align-items-center">
+                            <div class="col-md-4 text-center mb-4 mb-md-0">
+                                <div class="streak-number">{{ current_streak }}</div>
+                                <p class="streak-label">🔥 Current Streak</p>
+                                <div class="streak-info">
+                                    <div class="streak-stat">
+                                        <div class="streak-stat-number">{{ longest_streak }}</div>
+                                        <div class="streak-stat-label">Longest Streak</div>
+                                    </div>
+                                    <div class="streak-stat">
+                                        <div class="streak-stat-number">{{ total_relapse|default:0 }}</div>
+                                        <div class="streak-stat-label">Relapses</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="mb-3">{{ calendar_month_name }} {{ calendar_year }}</h6>
+                                <div class="calendar">
+                                    <div class="calendar-day">Mon</div>
+                                    <div class="calendar-day">Tue</div>
+                                    <div class="calendar-day">Wed</div>
+                                    <div class="calendar-day">Thu</div>
+                                    <div class="calendar-day">Fri</div>
+                                    <div class="calendar-day">Sat</div>
+                                    <div class="calendar-day">Sun</div>
+                                    
+                                    {% for week in calendar_weeks %}
+                                        {% for day_date in week %}
+                                            {% if day_date.month == today_date.month %} <!-- Check if day is in current month-->
+                                                {% with day_num=day_date.day log_status=calendar_logs_map|get_item:day_date.day %}
+                                                    <div class="calendar-day
+                                                        {% if day_date == today_date %}today{% endif %}
+                                                        {% if log_status %}{{ log_status }}{% endif %}">
+                                                        {{ day_num }}
+                                                    </div>
+                                                {% endwith %}
+                                            {% else %} <!-- Day is not in the current month(padding)-->
+                                                <div class="calendar-day outside-month" style="opacity: 0.5;"></div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}    
+                                </div>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="calendar-day clean me-2" style="width: 15px; height: 15px;"></div>
+                                        <small>Clean Day</small>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="calendar-day relapse me-2" style="width: 15px; height: 15px;"></div>
+                                        <small>Relapse</small>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="calendar-day today me-2" style="width: 15px; height: 15px; border: 1px dashed var(--primary-light);"></div>
+                                        <small>Today</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="card-footer text-center">
+                        <a href="#" class="btn btn-outline-primary rounded-pill">View Detailed Statistics</a>
+                    </div> -->
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-4">
+                <!-- Achievements Preview -->
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Achievements</h5>
+                        <a href="{% url 'challenge:achievement' %}" class="btn btn-link text-primary">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">🏅</div>
+                            <p class="achievement-name">First Check-in</p>
+                        </div>
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">🔥</div>
+                            <p class="achievement-name">3 Days Clean</p>
+                        </div>
+                        <div class="achievement-badge" style="opacity: 0.5;">
+                            <div class="achievement-icon">⭐</div>
+                            <p class="achievement-name">Profile Completed</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="card shortcut-card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Quick Links</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'challenge:create_challenge' %}" class="shortcut-link">
+                            <div class="shortcut-icon">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="shortcut-text">Create New Challenge</div>
+                        </a>
+                        <a href="{% url 'challenge:achievement' %}" class="shortcut-link">
+                            <div class="shortcut-icon">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="shortcut-text">View Achievements</div>
+                        </a>
+                        <!-- <a href="#" class="shortcut-link">
+                            <div class="shortcut-icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <div class="shortcut-text">Challenge History</div>
+                        </a> -->
+                        <!-- <a href="#" class="shortcut-link">
+                            <div class="shortcut-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="shortcut-text">Relapse Log</div>
+                        </a> -->
+                        <a href="{% url 'community:community_list' %}" class="shortcut-link">
+                            <div class="shortcut-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="shortcut-text">Community</div>
+                        </a>
+                        <a href="{% url 'accounts:profile_settings' %}" class="shortcut-link">
+                            <div class="shortcut-icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <div class="shortcut-text">Profile Settings</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievement Toast Notification -->
+    {% if show_toast and toast_achievement %}
+    <div class="achievement-toast-container">
+        <div class="achievement-toast" id="achievement-toast">
+            <div class="achievement-toast-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <div class="achievement-toast-content">
+                <div class="achievement-toast-title">Achievement Unlocked!</div>
+                <div class="achievement-toast-text">{{ toast_achievement.description }}</div>
+                <a href="{% url 'challenge:achievement' %}" class="btn btn-sm btn-primary rounded-pill">View Achievements</a>
+            </div>
+            <button class="achievement-toast-close" id="close-toast" onclick="hideAchievementToast()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="achievement-progress">
+                <div class="achievement-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock content %}
+
+{% block script %}
+   <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+{% endblock script %}

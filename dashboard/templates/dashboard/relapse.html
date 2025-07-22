@@ -1,0 +1,129 @@
+{% extends 'riseup_templates/base.html' %}
+{% loadd static %}
+
+
+{% block title %}
+    RiseUp - Relapse Page
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'dashboard/styles/relapse.css' %}">
+{% endblock css %}
+
+{% block content %}
+    <!-- Main Content -->
+    <div class="container" style="margin-top: 6rem;">
+        <!-- Header Banner -->
+        <div class="header-banner mb-4">
+            <div class="row align-items-center">
+                <div class="col-lg-10 mx-auto text-center">
+                    <h1>It's part of the journey</h1>
+                    <p>Every setback is a setup for a comeback. Your honesty is your strength.</p>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <!-- Relapse Confirmation Section -->
+                <div class="card relapse-card mb-4" id="confirmation-card" data-step="confirm">
+                    {% include 'riseup_templates/includes/html_docs/alerts.html' %}
+                    <div class="card-header">
+                        <h5 class="mb-0">Did you relapse?</h5>
+                    </div>
+                    <div class="card-body relapse-confirmation">
+                        <p class="text-muted">It's okay to be honest. This is a safe space for your recovery journey.</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button class="btn btn-danger relapse-button" id="confirm-relapse">
+                                    <i class="fas fa-check me-2"></i> Yes, I did
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{% url 'dashboard:dashboard' %}" class="btn btn-outline-primary relapse-button" id="cancel-relapse">
+                                    <i class="fas fa-times me-2"></i> No, clicked by mistake
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reflection Form Section -->
+                <div class="card mb-4 hidden" id="reflection-card" data-step="reflect">
+                    {% include 'riseup_templates/includes/html_docs/alerts.html' %}
+                    <div class="card-header">
+                        <h5 class="mb-0">How are you feeling?</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Would you like to write down how you feel right now? This is completely optional but can help you reflect.</p>
+                        <form id="reflection-form-ajax">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <!-- <textarea class="form-control" id="reflection-text" rows="4" placeholder="I'm feeling..."></textarea> -->
+                                 {{ reflection_form.relapse_text }}
+                                 <div id="reflection-errors" class="invalid-feedback d-block mt-1"></div>
+                            </div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary rounded-pill px-4" id="submit-reflection">
+                                    <i class="fas fa-paper-plane me-2"></i> Submit & Continue
+                                </button>
+                                <button type="button" class="btn btn-link text-muted" id="skip-reflection">Skip this step</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Badge Award Section -->
+                <div class="card mb-4 hidden" id="badge-card" data-step="badge">
+                    <div class="card-body badge-card">
+                        {% include 'riseup_templates/includes/html_docs/alerts.html' %}
+                        <div class="badge-icon mb-2" style="font-size: 3rem;">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h4 class="badge-name">Reset Warrior</h4>
+                        <p class="badge-description">You had the courage to be honest and start again. That's true strength.</p>
+                        <div class="alert alert-primary mt-3" role="alert">
+                            <i class="fas fa-info-circle me-2"></i> Your streak has been reset. Your current challenge has ended.
+                        </div>
+                        <button class="btn btn-primary rounded-pill px-4 mt-3" id="continue-to-restart">
+                            <i class="fas fa-arrow-right me-2"></i> Continue
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Restart Challenge Section -->
+                <div class="card mb-4 hidden" id="restart-card" data-step="restart">
+                    {% include 'riseup_templates/includes/html_docs/alerts.html' %}
+                    <div class="card-header">
+                        <h5 class="mb-0">Ready to begin again?</h5>
+                    </div>
+                    <div class="card-body restart-card text-center">
+                        <p class="mb-4">Would you like to start a new challenge? Choose an option below.</p>
+                        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-4">
+                            <a href="{% url 'challenge:create_challenge' %}" class="btn btn-outline-primary restart-option">
+                                <i class="fas fa-bolt me-2"></i> Quick 3-Day Challenge
+                            </a>
+                            <a href="{% url 'challenge:create_challenge' %}" class="btn btn-outline-primary restart-option">
+                                <i class="fas fa-calendar-alt me-2"></i> 7-Day Challenge
+                            </a>
+                            <a href="{% url 'challenge:create_challenge' %}" class="btn btn-primary restart-option">
+                                <i class="fas fa-pencil-alt me-2"></i> Custom Challenge
+                            </a>
+                        </div>
+                        <div class="mt-3">
+                            <a href="{% url 'dashboard:dashboard' %}" class="btn btn-link text-muted">
+                                <i class="fas fa-pause me-1"></i> I need some time, I'll come back tomorrow
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block script %}
+   <script src="{% static 'dashboard/js/relapse.js' %}"></script> 
+{% endblock script %}

@@ -1,0 +1,139 @@
+{% extends 'riseup_templates/base.html' %}
+{% load static %}
+
+{% block title %}
+    RiseUp - Create New Post
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% include 'community/styles/create_post.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+    <!-- Page Header -->
+    {% include 'riseup_templates/includes/html_docs/alerts.html' %}
+    <div class="container mt-5">
+        <div class="page-header">
+            <div class="container">
+                <h1>Create a New Post</h1>
+                <p>Share your journey, ask for advice, or start a helpful discussion with the community.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Post Form -->
+            <div class="col-lg-8">
+                <div class="post-form-card">
+                    {% include 'community/includes/html_docs/error_create_post.html' %}
+                    <form action="{% url 'community:create_post' %}" method="POST" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
+                            {{ form.title }}
+                            {% if forms.title.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.title.errors|striptags }}
+                                </div>
+                            {% endif %}
+
+                            {% if form.title.help_text %}
+                                <div class="form-text">
+                                    {{ form.title.help_text }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+
+                        <div class="mb-4">
+                            <label for="{{ form.body.id_for_label }}" class="form-label">{{ form.body.label }}</label>
+                            {{ form.body }}
+                            
+                            {% if forms.body.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.body.errors|striptags }}
+                                </div>
+                            {% endif %}
+
+                            {% if form.body.help_text %}
+                                <div class="form-text">
+                                    {{ form.body.help_text }}
+                                </div>
+                            {% endif %}
+
+                        </div>
+                        
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{% url 'community:community_list' %}" class="btn btn-outline-secondary px-4">Cancel</a>
+                            <button type="submit" class="btn btn-primary px-5">Post</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="col-lg-4 sidebar">
+                <!-- Posting Tips -->
+                <div class="sidebar-card">
+                    <h5>Posting Tips</h5>
+                    
+                    <div class="posting-tip d-flex">
+                        <div class="tip-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div>
+                            <h6>Be Specific</h6>
+                            <p>Clear, specific titles and descriptions get better responses.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="posting-tip d-flex">
+                        <div class="tip-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div>
+                            <h6>Stay Anonymous</h6>
+                            <p>Don't share personal details that could identify you.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="posting-tip d-flex">
+                        <div class="tip-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div>
+                            <h6>Be Supportive</h6>
+                            <p>This is a judgment-free zone. We're all on this journey together.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="posting-tip d-flex">
+                        <div class="tip-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div>
+                            <h6>Avoid Triggers</h6>
+                            <p>Don't include explicit descriptions or links that might trigger others.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Community Rules -->
+                <div class="sidebar-card">
+                    <h5>Community Guidelines</h5>
+                    <ul class="community-rules ps-3">
+                        <li>Be respectful and kind to all members</li>
+                        <li>No shaming or judgment - we're all on our own journey</li>
+                        <li>Keep all discussions anonymous - no personal identifying info</li>
+                        <li>No explicit content or links that could trigger others</li>
+                        <li>Support each other with compassion</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
