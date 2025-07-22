@@ -1,0 +1,397 @@
+.card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+    background: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-weight: 700;
+    padding: 1.25rem 1.5rem;
+}
+
+.card-footer {
+    background: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1rem 1.5rem;
+}
+
+.dashboard-welcome {
+    background: var(--gradient);
+    color: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-welcome::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.dashboard-welcome::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: -50px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.dashboard-welcome h1 {
+    font-weight: 800;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-welcome p {
+    opacity: 0.9;
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+.challenge-card {
+    border-top: 4px solid var(--primary);
+}
+
+.progress {
+    height: 0.8rem;
+    border-radius: 1rem;
+    background-color: #e2e8f0;
+    margin: 1rem 0;
+}
+
+.progress-bar {
+    background: var(--gradient);
+    border-radius: 1rem;
+}
+
+.check-in-card {
+    text-align: center;
+    padding: 2rem;
+}
+
+.check-in-btn {
+    width: 100%;
+    padding: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 1.5rem 0;
+    border-radius: 1rem;
+}
+
+.streak-card {
+    padding: 1.5rem;
+}
+
+.streak-number {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.streak-label {
+    color: var(--gray);
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+.streak-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+
+.streak-stat {
+    text-align: center;
+    flex: 1;
+    padding: 0.5rem;
+}
+
+.streak-stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.streak-stat-label {
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.calendar-day.clean {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.calendar-day.relapse {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+.calendar-day.today {
+    border: 2px dashed var(--primary-light);
+}
+
+.achievement-badge {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+    margin-bottom: 1rem;
+}
+
+.achievement-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.achievement-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+.shortcut-card {
+    padding: 1.5rem;
+}
+
+.shortcut-link {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--dark);
+}
+
+.shortcut-link:hover {
+    transform: translateX(5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    color: var(--primary);
+}
+
+.shortcut-icon {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    border-radius: 0.5rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    color: var(--primary);
+    font-size: 1.25rem;
+}
+
+.shortcut-text {
+    font-weight: 600;
+}
+
+@media (max-width: 992px) {
+    .dashboard-welcome h1 {
+        font-size: 2rem;
+    }
+    
+    .streak-number {
+        font-size: 2.5rem;
+    }
+    
+    .check-in-btn {
+        padding: 1.25rem;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .streak-stat {
+        padding: 0.25rem;
+    }
+    
+    .streak-stat-number {
+        font-size: 1.25rem;
+    }
+    
+    .calendar {
+        gap: 0.25rem;
+    }
+    
+    .calendar-day {
+        font-size: 0.75rem;
+    }
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-radius: 0.75rem;
+}
+
+.dropdown-item {
+    padding: 0.75rem 1.5rem;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+}
+
+/* Achievement Toast Styles */
+.achievement-toast-container {
+    position: fixed;
+    top: 20px;  /* Changed from bottom to top */
+    right: 20px;
+    z-index: 9999;  /* Increased z-index to ensure it's above other elements */
+}
+
+.achievement-toast {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 350px;
+    max-width: calc(100vw - 40px);  /* Ensure it doesn't overflow viewport width */
+    display: flex;
+    opacity: 0;
+    transform: translateY(-20px);  /* Changed to slide down instead of up */
+    transition: all 0.5s ease;
+    border-left: 5px solid var(--primary);
+}
+
+.achievement-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.achievement-toast-icon {
+    background: var(--gradient);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    font-size: 2rem;
+}
+
+.achievement-toast-content {
+    padding: 1rem;
+    flex: 1;
+}
+
+.achievement-toast-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    color: var(--dark);
+}
+
+.achievement-toast-text {
+    margin-bottom: 0.5rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.achievement-toast-close {
+    background: transparent;
+    border: none;
+    color: var(--gray);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    align-self: flex-start;
+}
+
+.achievement-progress {
+    height: 5px;
+    background-color: #e2e8f0;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0 0 0.25rem 0.25rem;
+}
+
+.achievement-progress-bar {
+    position: absolute;
+    height: 100%;
+    background: var(--gradient);
+    width: 100%;
+    animation: progressAnimation 5s linear;
+}
+
+@keyframes progressAnimation {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0%;
+    }
+}
+
+@media (max-width: 576px) {
+    .achievement-toast-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+    }
+    
+    .achievement-toast {
+        width: 100%;
+    }
+    
+    .achievement-toast-icon {
+        padding: 1rem;
+        font-size: 1.5rem;
+    }
+}

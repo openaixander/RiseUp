@@ -1,0 +1,445 @@
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.social-icons a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f0f4f8;
+    color: var(--dark);
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-3px);
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 3rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+/* Registration Page Specific Styles */
+.registration-section {
+    padding: 8rem 0 6rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.registration-section::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: var(--gradient);
+    opacity: 0.05;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.registration-section::after {
+    content: '';
+    position: absolute;
+    bottom: -150px;
+    left: -150px;
+    width: 500px;
+    height: 500px;
+    background: var(--gradient);
+    opacity: 0.05;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.registration-card {
+    background: white;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    position: relative;
+}
+
+.registration-header {
+    background: var(--gradient);
+    padding: 2.5rem;
+    color: white;
+    text-align: center;
+    position: relative;
+}
+
+.registration-header::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: white;
+    border-radius: 100% 100% 0 0;
+}
+
+.registration-header h2 {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.registration-header p {
+    opacity: 0.9;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.registration-body {
+    padding: 3rem 2.5rem;
+}
+
+.form-floating {
+    margin-bottom: 1.5rem;
+}
+
+.form-control {
+    border: 1px solid #e2e8f0;
+    padding: 0.75rem 1rem;
+    height: auto;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.form-label {
+    color: var(--gray);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-check {
+    margin: 1.5rem 0;
+}
+
+.form-check-label {
+    color: var(--gray);
+}
+
+.btn-register {
+    background: var(--gradient);
+    color: white;
+    padding: 0.75rem 0;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+    border: none;
+}
+
+.btn-register:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--gray);
+}
+
+.login-link a {
+    color: var(--primary);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.login-link a:hover {
+    text-decoration: none;
+    color: var(--primary-light);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--gray);
+    z-index: 10;
+}
+
+.registration-features {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+    padding: 3rem;
+    border-radius: 1.5rem;
+    height: 100%;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.feature-icon-box {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    border-radius: 12px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.feature-icon-box i {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.feature-text h4 {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.feature-text p {
+    color: var(--gray);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.highlight-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 1.5rem;
+}
+
+.privacy-notice {
+    font-size: 0.85rem;
+    color: var(--gray);
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #edf2f7;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.divider span {
+    padding: 0 1rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.social-sign-up {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.social-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: var(--dark);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    background: #f8fafc;
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: var(--dark);
+}
+
+.social-btn i {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+/* Form Input Animations - FIXED */
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    color: var(--primary);
+    transform: scale(0.85) translateY(-0.75rem) translateX(0.15rem);
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-control-lg {
+    height: 58px;
+    font-size: 1rem;
+}
+
+/* UPDATED FLOATING LABEL STYLES */
+.floating-label {
+    position: absolute;
+    pointer-events: none;
+    left: 1rem;
+    top: 1.1rem;
+    transition: 0.2s ease all;
+    color: var(--gray);
+    z-index: 1;
+}
+
+.form-control:focus ~ .floating-label,
+.form-control:not(:placeholder-shown) ~ .floating-label {
+    top: -0.5rem;
+    left: 0.75rem;
+    font-size: 0.75rem;
+    opacity: 1;
+    background: white;
+    padding: 0 0.5rem;
+    color: var(--primary);
+    font-weight: 600;
+    z-index: 5;
+}
+
+.password-strength {
+    height: 5px;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 5px;
+}
+
+.strength-bar {
+    height: 100%;
+    flex: 1;
+    border-radius: 5px;
+    background-color: #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.strength-bar.active {
+    background-color: var(--primary);
+}
+
+.strength-text {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+    color: var(--gray);
+    text-align: right;
+}
+
+/* Animated background */
+.animated-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gradient);
+    opacity: 0.05;
+}
+
+.circle-1 {
+    width: 300px;
+    height: 300px;
+    top: -150px;
+    right: -50px;
+}
+
+.circle-2 {
+    width: 500px;
+    height: 500px;
+    bottom: -250px;
+    left: -200px;
+}
+
+.circle-3 {
+    width: 200px;
+    height: 200px;
+    top: 30%;
+    right: 10%;
+}
+
+@media (max-width: 992px) {
+    .registration-features {
+        margin-top: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .registration-header {
+        padding: 2rem;
+    }
+    
+    .registration-body {
+        padding: 2rem 1.5rem;
+    }
+    
+    .registration-features {
+        padding: 2rem;
+    }
+    
+    .social-sign-up {
+        flex-direction: column;
+    }
+}
+
+/* Add styles for Django form errors if needed */
+.errorlist {
+    color: #dc3545; /* Bootstrap danger color */
+    list-style-type: none;
+    padding: 0;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+}
+.input-group .errorlist {
+     position: absolute; 
+     bottom: -1.2rem; /* Adjust position as needed */
+     left: 0;
+}
+.alert-danger ul { margin-bottom: 0; }
