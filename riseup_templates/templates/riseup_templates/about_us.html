@@ -1,0 +1,219 @@
+{% extends 'riseup_templates/base.html' %}
+{% load static %}
+
+
+{% block title %}
+    About Us - RiseUp
+{% endblock title %}
+
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'riseup_templates/styles/about_us.css' %}">
+{% endblock css %}
+
+
+
+{% block content %}
+    <!-- About Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1>About RiseUp</h1>
+                    <p>Rise Up is a self-discipline and recovery platform built to help individuals overcome pornography addiction through daily accountability, encouragement, and community support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why We Built Section -->
+    <section class="mission-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="fw-bold mb-4">Why We Built Rise Up</h2>
+                    <p class="lead">We understand the struggle of addiction—especially when it's silent and shame-filled. That's why we built Rise Up: to offer a safe space to fight back daily, track progress, and never feel alone.</p>
+                    <p>Many of us have experienced firsthand how addictive habits can silently take control of our lives. We've felt the isolation, the shame, and the frustration of trying to break free on our own. Rise Up was born from this shared experience—a tool we wished we had during our own journeys to recovery.</p>
+                    <p>Our mission is simple: to provide practical tools for daily accountability combined with the strength of community support, all while respecting your privacy and personal journey.</p>
+                </div>
+                <div class="col-lg-5 offset-lg-1 d-flex align-items-center mt-4 mt-lg-0">
+                    <img src="/api/placeholder/500/400" alt="Our Mission" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="feature-list">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 d-flex align-items-center mb-4 mb-lg-0">
+                    <img src="/api/placeholder/500/400" alt="App Features" class="img-fluid rounded shadow">
+                </div>
+                <div class="col-lg-6 offset-lg-1">
+                    <h2 class="fw-bold mb-4">What the App Does</h2>
+                    <p class="mb-4">Rise Up provides practical, effective tools designed to support your journey to freedom:</p>
+                    
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <h5>Daily Check-ins</h5>
+                            <p>Simple, consistent accountability to keep you on track and build momentum.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <i class="fas fa-bullseye"></i>
+                        <div>
+                            <h5>Personal Challenge Tracking</h5>
+                            <p>Set custom goals and watch your progress grow day by day.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <i class="fas fa-medal"></i>
+                        <div>
+                            <h5>Achievement System</h5>
+                            <p>Earn badges and celebrate milestones to stay motivated on your journey.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <i class="fas fa-comments"></i>
+                        <div>
+                            <h5>Community Support</h5>
+                            <p>Connect anonymously with others who understand your struggle.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <i class="fas fa-sync"></i>
+                        <div>
+                            <h5>Relapse Logs & Encouragement</h5>
+                            <p>Learn from setbacks and receive support to start again stronger.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who This Is For Section -->
+    <section class="team-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="fw-bold mb-4">Who This Is For</h2>
+                    <p class="lead mb-5">Whether you're on Day 0 or Day 100, Rise Up is for anyone who wants to build self-control and live a life free from unhealthy habits.</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon mx-auto">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <h4>Beginners</h4>
+                            <p>Just starting your journey and looking for structure and support to build momentum.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon mx-auto">
+                                <i class="fas fa-walking"></i>
+                            </div>
+                            <h4>On The Path</h4>
+                            <p>Making progress but seeking additional accountability and community to stay consistent.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon mx-auto">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                            <h4>Recovery Veterans</h4>
+                            <p>Looking to maintain long-term freedom and perhaps guide others on their journey.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Section -->
+    <section class="privacy-section">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center">
+                    <h2 class="fw-bold mb-4">Privacy & Respect Promise</h2>
+                    <p class="lead">We value your privacy. Your data is safe, your identity is protected, and your healing journey is respected. No judgment. No pressure. Just progress.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="privacy-card">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-lock text-primary" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h4 class="text-center">Data Protection</h4>
+                        <p class="text-center">Your personal information and usage data are encrypted and securely stored. We never sell your data to third parties.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="privacy-card">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-user-shield text-primary" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h4 class="text-center">Anonymous Participation</h4>
+                        <p class="text-center">Choose how much or how little you want to share. Your identity is yours to reveal or keep private.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="privacy-card">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-heart text-primary" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h4 class="text-center">Judgment-Free Zone</h4>
+                        <p class="text-center">Every journey has ups and downs. Our platform is designed to encourage, not shame, at every step.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="fw-bold mb-4">Our Team</h2>
+                    <p class="lead mb-5">Rise Up was developed by a passionate team of believers in discipline, purpose, and recovery. We are not therapists, just real people building tools that we needed ourselves.</p>
+                    <div class="d-flex justify-content-center">
+                        <a href="#" class="btn btn-outline-primary rounded-pill px-4 me-3">Learn More About Our Story</a>
+                        <a href="#" class="btn btn-outline-primary rounded-pill px-4">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="fw-bold mb-4">Ready to Start Your Journey?</h2>
+                    <p class="lead mb-5">You're not alone. Let's rise up—together.</p>
+                    <a href="{% url 'accounts:register' %}" class="btn btn-cta btn-lg">Create Free Account</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}

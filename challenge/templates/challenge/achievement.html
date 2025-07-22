@@ -1,0 +1,184 @@
+{% extends 'riseup_templates/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    RiseUp - Achievements
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'challenge/styles/achievement.css' %}">
+{% endblock css %}
+
+{% block content %}
+    <!-- Main Content -->
+    {% include 'riseup_templates/includes/html_docs/alerts.html' %}
+    <div class="container" style="margin-top: 6rem;">
+        <!-- Achievement Header -->
+        <div class="achievement-header mb-4">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1>Your Achievements</h1>
+                    <p>Track your progress, celebrate your victories, and see how far you've come on your journey.</p>
+                </div>
+                <!-- <div class="col-lg-4 d-flex justify-content-lg-end mt-3 mt-lg-0">
+                    <a href="#" class="btn btn-light rounded-pill px-4">Share Progress</a>
+                </div> -->
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Left Column - Badges & Timeline -->
+            <div class="col-lg-8">
+                <!-- Achievement Badges -->
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Earned Badges</h5>
+                        <span class="badge bg-primary rounded-pill">
+                            {{ unlocked_achievement_ids | length }} of  {{ all_achievements|length }} Unlocked
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="achievement-grid">
+                            <!-- Unlocked Badges -->
+                            {% for achievement in all_achievements %}
+                                {% if achievement.id in unlocked_achievement_ids %}
+                                <div class="badge-card">
+                                    <div class="badge-icon">{{ achievement.icon|default:"🏆" }}</div>
+                                    <div class="badge-name">{{ achievement.name }}</div>
+                                    <div class="badge-description">{{ achievement.description }}</div>
+                                    <div class="badge-unlocked-date"></div>
+                                </div>
+                                {% else %}
+                            
+                                <!-- Locked Badges -->
+                                <div class="badge-card badge-locked">
+                                    <div class="badge-icon">{{ achievement.icon|default:"🔒" }}</div>
+                                    <div class="badge-name">{{ achievement.name }}</div>
+                                    <div class="badge-description">{{ achievement.description }}</div>
+                                    <!-- <div class="badge-progress">2 days remaining</div> -->
+                                </div>
+                            {% endif %}
+                        {% empty %}
+                                <p>No achievements defined yet</p>
+                        {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Milestone Timeline -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Your Journey</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeline">
+                            {% for event in timeline_events %}
+                            <div class="timeline-item {% if event.event_type == 'RELAPSE_LOGGED' %}timeline-relapse{% endif %} ">
+                                <div class="timeline-icon">
+                                    {% if event.event_type == 'RELAPSE_LOGGED' %} <i class="fas fa-redo"></i>
+                                    {% elif event.event_type == 'ACHIEVEMENT_UNLOCKED' %} <i class="fas fa-medal"></i>
+                                    {% elif event.event_type == 'CHALLENGE_STARTED' %} <i class="fas fa-flag"></i>
+                                    {% elif event.event_type == 'JOINED' %} <i class="fas fa-play"></i>
+                                    {% elif event.event_type == 'REFLECTION_ADDED' %} <i class="fas fa-pencil-alt"></i>
+                                    {% else %} <i class="fas fa-star"></i> {% endif %}
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="timeline-date">{{ event.timestamp|date:"F j, Y" }}</div>
+                                    <h6 class="timeline-title">{{ event.title }}</h6>
+                                    {% if event.description %}
+                                    <p class="timeline-text">{{ event.description }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="timeline-item">
+                                <div class="timeline-icon"><i class="fas fa-play"></i></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-date">Today</div>
+                                    <h6 class="timeline-title">Your Journey Begins!</h6>
+                                    <p class="timeline-text">Start a challenge and log your progress to see your journey unfold here.</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-outline-primary rounded-pill">View Complete Journey</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Streak Record & Quotes -->
+            <div class="col-lg-4">
+                <!-- Streak Record -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Streak Record</h5>
+                    </div>
+                    <div class="card-body streak-card">
+                        <div class="streak-container">
+                            <div class="streak-box">
+                                <div class="streak-number streak-longest">{{ longest_streak }}</div>
+                                <p class="streak-label">Longest Streak</p>
+                            </div>
+                            <div class="streak-box">
+                                <div class="streak-number">{{ current_streak }}</div>
+                                <p class="streak-label">Current Streak</p>
+                            </div>
+                            <div class="streak-box">
+                                <div class="streak-number">{{ total_clean_days }}</div>
+                                <p class="streak-label">Total Clean Days</p>
+                            </div>
+                            <div class="streak-box">
+                                <div class="streak-number">{{ total_relapses }}</div>
+                                <p class="streak-label">Relapses Logged</p>
+                            </div>
+                        </div>
+                        <p class="text-muted mb-0">Remember, progress isn't linear. Every clean day is a victory, and every relapse is a lesson.</p>
+                    </div>
+                </div>
+
+                <!-- Encouragement Quote -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Daily Inspiration</h5>
+                    </div>
+                    <div class="card-body quote-card">
+                        <p class="quote-text">The journey of a thousand miles begins with a single step. You've already taken that step, and each day you're getting stronger.</p>
+                        <p class="quote-author">— Your RiseUp Team</p>
+                    </div>
+                </div>
+
+                <!-- Reflection -->
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Your Reflection</h5>
+                        <a href="#" class="btn btn-link text-primary">View Past Reflections</a>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'challenge:achievement' %}" method="POST" novalidate>
+                            {% csrf_token %}
+                            <p class="text-muted mb-3">How do you feel about your progress so far?</p>
+                            <!-- <textarea class="form-control reflection-input" rows="4" placeholder="Share your thoughts, feelings, or insights about your recovery journey..."></textarea> -->
+                            {{ reflection_form.text }}
+                            {% if reflection_form.text.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in reflection_form.text.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if reflection_form.non_field_errors %}
+                                <div class="alert alert-danger mt-2" role="alert">
+                                    {% for error in reflection_form.non_field_errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                            <button type="submit" class="btn btn-primary rounded-pill w-100 mt-3">Save Reflection</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

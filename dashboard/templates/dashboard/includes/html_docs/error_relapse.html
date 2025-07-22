@@ -1,0 +1,7 @@
+{% if reflection_form.non_field_errors or reflection_form.text.errors %}
+    <div class="alert alert-danger" role="alert">
+        Please correct the errors below.
+        {{ reflection_form.non_field_errors }}
+        {{ reflection_form.text.errors }}
+    </div>
+{% endif %}

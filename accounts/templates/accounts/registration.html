@@ -1,0 +1,199 @@
+{% extends 'riseup_templates/base.html' %}
+{% load static %}
+
+{% block title %}
+    RiseUp - Register
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'accounts/css/registration.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+    <!-- Registration Section -->
+    <section class="registration-section">
+        <div class="animated-bg">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+            <div class="circle circle-3"></div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="registration-card">
+                        <div class="registration-header">
+                            <h2>Start Your Journey Today</h2>
+                            <p>Create your account and take the first step toward positive change</p>
+                        </div>
+                        <div class="registration-body">
+                            <div class="social-sign-up">
+                                <a href="#" class="social-btn">
+                                    <i class="fab fa-google"></i> Sign up with Google
+                                </a>
+                                <a href="#" class="social-btn">
+                                    <i class="fab fa-apple"></i> Sign up with Apple
+                                </a>
+                            </div>
+                            
+                            <div class="divider">
+                                <span>or sign up with email</span>
+                            </div>
+                            
+                            <form method="POST" action="{% url 'accounts:register' %}" novalidate>
+                                <!-- Add csrf token for security -->
+                                 {% csrf_token %}
+                                 <!-- Display non-fields Errors (e.g . password do not match...) -->
+                                {% if form.non_field_errors %}
+                                    <div role="alert" class="alert alert-danger">
+                                        {{ form.non_field_errors }}
+                                    </div>
+                                {% endif %}
+
+                                <!-- display global errors if any  -->
+                                {% if form.errors and not form.non_field_errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        Please correct the errors below.
+                                    </div>
+                                {% endif %}
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <!-- render the first name field -->
+                                            <!-- <input type="text" class="form-control form-control-lg" id="firstName" placeholder=" "> -->
+                                             {{ form.first_name }}
+                                            <label for="{{ form.first_name.id_for_label }}" class="floating-label">First Name</label>
+                                            <!-- display  any errors for this specific field-->
+                                             {{ form.first_name.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <!-- <input type="text" class="form-control form-control-lg" id="lastName" placeholder=" "> -->
+                                            {{ form.last_name }}
+                                            <label for="{{ form.last_name.id_for_label }}" class="floating-label">Last Name</label>
+                                            {{ form.last_name.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <!-- <input type="email" class="form-control form-control-lg" id="email" placeholder=" "> -->
+                                    {{ form.email }}
+                                    <label for="{{ form.last_name.id_for_label }}" class="floating-label">Email Address</label>
+                                    {{ form.email.errors }}
+                                </div>
+                                
+                                <div class="input-group">
+                                    <!-- <input type="password" class="form-control form-control-lg" id="password" placeholder=" "> -->
+                                     {{ form.password }}
+                                    <label for="{{ form.last_name.id_for_label }}" class="floating-label">Password</label>
+                                    <span class="password-toggle">
+                                        <i class="far fa-eye"></i>
+                                    </span>
+                                    {{ form.password.errors }}
+                                    <div class="password-strength">
+                                        <div class="strength-bar"></div>
+                                        <div class="strength-bar"></div>
+                                        <div class="strength-bar"></div>
+                                        <div class="strength-bar"></div>
+                                    </div>
+                                    <!-- <div class="strength-text">Password strength: Type to check</div> -->
+                                </div>
+                                
+                                <div class="input-group">
+                                    <!-- Render Confirm Password field -->
+                                    {{ form.confirm_password }}
+                                    <label for="{{ form.confirm_password.id_for_label }}" class="floating-label">Confirm Password</label>
+                                    {{ form.confirm_password.errors }}
+                                </div>
+                                
+                                <div class="form-check">
+                                    <!-- <input class="form-check-input" type="checkbox" value="" id="terms"> -->
+                                    {{ form.terms }}
+                                    <label class="form-check-label" for="{{ form.terms.id_for_label }}">
+                                        I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                                    </label>
+                                    {{ form.terms.errors }}
+                                </div>
+                                
+                                <button type="submit" class="btn btn-register">Create Account</button>
+                                
+                                <div class="login-link">
+                                    Already have an account? <a href="{% url 'accounts:login' %}">Log in</a>
+                                </div>
+                            </form>
+                            
+                            <div class="privacy-notice">
+                                <p>We take your privacy seriously. All personal information is encrypted and secured.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="registration-features">
+                        <span class="highlight-badge">Why Join RiseUp?</span>
+                        <h3 class="mb-4">Your Journey to Freedom Starts Here</h3>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon-box">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4>100% Anonymous</h4>
+                                <p>Your identity is completely private. Participate freely without worrying about privacy.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon-box">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Track Your Progress</h4>
+                                <p>Set goals and monitor your journey with our intuitive tracking system.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon-box">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Supportive Community</h4>
+                                <p>Connect with others facing similar challenges in our safe, moderated environment.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon-box">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Achievement System</h4>
+                                <p>Earn badges and celebrate milestones as you progress toward your goals.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item mb-0">
+                            <div class="feature-icon-box">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Educational Resources</h4>
+                                <p>Access articles and tools to better understand and overcome your challenges.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+
+{% block script %}
+    <script src="{% static 'accounts/js/registration.js' %}"></script>
+{% endblock script %}

@@ -1,0 +1,191 @@
+{% autoescape off %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your RiseUp Account</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #1e293b;
+            background-color: #f9fafb;
+            line-height: 1.6;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .email-header {
+            background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .email-body {
+            padding: 35px 30px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        .brand-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+        h1 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        p {
+            margin-bottom: 20px;
+            color: #64748b;
+            font-size: 16px;
+        }
+        .greeting {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 18px;
+        }
+        .button-container {
+            text-align: center;
+            margin: 35px 0;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(99, 102, 241, 0.25);
+        }
+        .fallback-link {
+            margin-top: 25px;
+            font-size: 14px;
+            color: #64748b;
+            text-align: center;
+            word-break: break-all;
+            background-color: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+        }
+        .fallback-link a {
+            color: #6366f1;
+            text-decoration: underline;
+            word-break: break-all;
+        }
+        .email-footer {
+            padding: 25px 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+            border-top: 1px solid #edf2f7;
+            background-color: #f8fafc;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        .warning {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 25px 0;
+            font-size: 14px;
+            color: #92400e;
+            border-radius: 4px;
+        }
+        .social-icons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .social-icon {
+            display: inline-block;
+            margin: 0 8px;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            border-radius: 50%;
+            background-color: #f1f5f9;
+        }
+        .social-icon img {
+            vertical-align: middle;
+            height: 18px;
+            width: 18px;
+        }
+        .company-info {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <div class="brand-icon">⛰</div> <!-- Mountain emoji replacing the font icon -->
+            <div class="logo">RiseUp</div>
+            <div>Verify Your Account</div>
+        </div>
+        
+        <div class="email-body">
+            <p class="greeting">Hi {{ user.first_name }},</p>
+            
+            <p>Thank you for registering at RiseUp! We're excited to have you join our community of people committed to positive change.</p>
+            
+            <p>To get started, please verify your account by clicking the button below:</p>
+            
+            <div class="button-container">
+                <a href="{{ protocol }}://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}" class="button">
+                  Verify My Account
+                </a>
+            </div>
+            
+            <div class="fallback-link">
+                <p>If the button doesn't work, copy and paste this link into your browser:</p>
+                <a href="{{ protocol }}://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}">{{ protocol }}://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}</a>
+            </div>
+            
+            <div class="warning">
+                If you did not register for an account on RiseUp, please ignore this email.
+            </div>
+        </div>
+        
+        <div class="email-footer">
+            <p>Sincerely,<br>The RiseUp Team</p>
+            
+            <!-- <div class="social-icons"> -->
+                <!-- Using inline SVGs as base64 images would be better, but here's a simpler approach -->
+                <!-- <a href="#" class="social-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook">
+                </a> -->
+                <!-- <a href="#" class="social-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+                </a> -->
+            <!-- </div> -->
+            
+            <div class="company-info">
+                <p>&copy; 2025 RiseUp. All rights reserved.</p>
+                <!-- <p>123 Mountain View Dr, Summit Heights, CA 94043</p> -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endautoescape %}
