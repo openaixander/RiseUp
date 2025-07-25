@@ -183,7 +183,10 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD',)
 # --- Celery Configuration Options ---
 # Make sure Redis is running on the default port 6379
 
-CELERY_BROKER_URL = config('CELERY_BROKER_URL', default='redis://localhost:6379/0')
+REDIS_URL = config('REDIS_URL', default='redis://localhost:6379/0')
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
+
 
 # Define the acceptable content types for tasks
 CELERY_ACCEPT_CONTENT = ['json']
