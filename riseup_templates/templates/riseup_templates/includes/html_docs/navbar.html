@@ -21,9 +21,19 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'riseup:about_us' %}">About</a>
                 </li>
-                <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-                    <a href="#" class="btn btn-primary rounded-pill px-4">Get Started</a>
-                </li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <a href="{% url 'accounts:logout' %}" class="btn btn-primary rounded-pill px-4">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <a href="{% url 'accounts:login' %}" class="btn btn-primary rounded-pill px-4">Login</a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <a href="{% url 'accounts:register' %}" class="btn btn-secondary rounded-pill px-4">Register</a>
+                    </li>
+                {% endif %}
+
             </ul>
         </div>
     </div>
