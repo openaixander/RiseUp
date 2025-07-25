@@ -28,7 +28,8 @@
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <!-- Relapse Confirmation Section -->
-                <div class="card relapse-card mb-4" id="confirmation-card" data-step="confirm">
+                <!-- MODIFICATION: Added data-process-url attribute to pass the URL to JavaScript -->
+                <div class="card relapse-card mb-4" id="confirmation-card" data-step="confirm" data-process-url="{% url 'dashboard:ajax_log_relapse_process' %}">
                     {% include 'riseup_templates/includes/html_docs/alerts.html' %}
                     <div class="card-header">
                         <h5 class="mb-0">Did you relapse?</h5>
@@ -51,7 +52,8 @@
                 </div>
 
                 <!-- Reflection Form Section -->
-                <div class="card mb-4 hidden" id="reflection-card" data-step="reflect">
+                <!-- MODIFICATION: Added data-reflect-url attribute -->
+                <div class="card mb-4 hidden" id="reflection-card" data-step="reflect" data-reflect-url="{% url 'dashboard:ajax_log_relapse_reflect' %}">
                     {% include 'riseup_templates/includes/html_docs/alerts.html' %}
                     <div class="card-header">
                         <h5 class="mb-0">How are you feeling?</h5>
@@ -61,7 +63,6 @@
                         <form id="reflection-form-ajax">
                             {% csrf_token %}
                             <div class="mb-3">
-                                <!-- <textarea class="form-control" id="reflection-text" rows="4" placeholder="I'm feeling..."></textarea> -->
                                  {{ reflection_form.relapse_text }}
                                  <div id="reflection-errors" class="invalid-feedback d-block mt-1"></div>
                             </div>
