@@ -1,56 +1,79 @@
+# your_app/management/commands/create_custom_superuser.py
+
 import os
-import sys
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from django.db import DEFAULT_DB_ALIAS
+from django.core.exceptions import ValidationError
 
 class Command(BaseCommand):
-    help = 'Creates a superuser, and allows setting a password in a single command.'
+    """
+    Custom Django command to create a superuser non-interactively.
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.UserModel = get_user_model()
-        self.username_field = self.UserModel._meta.get_field(self.UserModel.USERNAME_FIELD)
+    This command is designed for deployment environments like Render where you
+    can set environment variables for the superuser's credentials. It uses
+    the custom user model and manager you've defined.
 
-    def add_arguments(self, parser):
-        parser.add_argument(
-            f'--{self.UserModel.USERNAME_FIELD}',
-            dest=self.UserModel.USERNAME_FIELD,
-            required=True,
-            help='Specifies the login for the superuser.',
-        )
-        parser.add_argument(
-            '--password',
-            dest='password',
-            help='Specifies the password for the superuser. If not provided, it will be prompted for.',
-        )
-        # Add arguments for all other required fields
-        for field_name in self.UserModel.REQUIRED_FIELDS:
-            parser.add_argument(
-                f'--{field_name}',
-                dest=field_name,
-                required=True,
-                help=f'Specifies the {field_name} for the superuser.',
-            )
+    Reads the following environment variables:
+    - SUPERUSER_EMAIL
+    - SUPERUSER_PASSWORD
+    - SUPERUSER_FIRST_NAME
+    - SUPERUSER_LAST_NAME
+    """
+    help = 'Creates a superuser non-interactively from environment variables.'
 
     def handle(self, *args, **options):
-        database = options.get('database', DEFAULT_DB_ALIAS)
-        password = options.get('password')
-        email = options[self.UserModel.USERNAME_FIELD]
-        
-        user_data = {
-            self.UserModel.USERNAME_FIELD: email,
-            'password': password
-        }
+        """
+        The main logic of the command.
+        """
+        User = get_user_model()  # Gets your custom 'Account' model
 
-        # Collect data for required fields
-        for field_name in self.UserModel.REQUIRED_FIELDS:
-            user_data[field_name] = options[field_name]
+        # --- Get credentials from environment variables ---
+        email = os.environ.get('DJANGO_SUPERUSER_EMAIL')
+        password = os.environ.get('DJANGO_SUPERUSER_PASSWORD')
+        first_name = os.environ.get('DJANGO_SUPERUSER_FIRST_NAME')
+        last_name = os.environ.get('DJANGO_SUPERUSER_LAST_NAME')
 
-        # Use the custom manager's create_superuser method
+        # --- Validate that all required variables are set ---
+        if not all([email, password, first_name, last_name]):
+            self.stdout.write(self.style.ERROR(
+                'Missing one or more required environment variables: '
+                'DJANGO_SUPERUSER_EMAIL, DJANGO_SUPERUSER_PASSWORD, DJANGO_SUPERUSER_FIRST_NAME, DJANGO_SUPERUSER_LAST_NAME'
+            ))
+            # Exit the command gracefully if variables are missing
+            return
+
+        # --- Check if a user with that email already exists ---
+        if User.objects.filter(email=email).exists():
+            self.stdout.write(self.style.WARNING(
+                f'A user with the email "{email}" already exists. Skipping superuser creation.'
+            ))
+            return
+
+        # --- Create the superuser ---
         try:
-            self.UserModel._default_manager.db_manager(database).create_superuser(**user_data)
-            self.stdout.write(self.style.SUCCESS(f"Superuser '{email}' created successfully."))
+            self.stdout.write(f'Creating superuser for email: {email}...')
+
+            # Your CustomUserManager's create_superuser method will be called here.
+            # It will handle username generation automatically based on your logic.
+            User.objects.create_superuser(
+                email=email,
+                password=password,
+                first_name=first_name,
+                last_name=last_name
+            )
+
+            self.stdout.write(self.style.SUCCESS(
+                f'Successfully created superuser: {email}'
+            ))
+
+        except ValidationError as e:
+            # Handle potential validation errors from the model
+            self.stdout.write(self.style.ERROR(
+                f'Validation Error: Could not create superuser. {e}'
+            ))
         except Exception as e:
-            self.stderr.write(self.style.ERROR(f"Error creating superuser: {e}"))
-            sys.exit(1)
+            # Handle other potential errors
+            self.stdout.write(self.style.ERROR(
+                f'An unexpected error occurred: {e}'
+            ))
+
