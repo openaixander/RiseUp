@@ -12,6 +12,7 @@ click-repl==0.3.0
 cron-descriptor==1.4.5
 dj-database-url==3.0.1
 Django==4.2.20
+django-allauth==65.10.0
 django-celery-beat==2.8.0
 django-jazzmin==3.0.1
 django-timezone-field==7.1

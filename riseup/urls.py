@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('riseup_templates.urls')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
+    path('accounts/', include('allauth.urls')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
     path('challenge/', include('challenge.urls', namespace='challenge')),
     path('community/', include('community.urls', namespace='community')),

@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-@zkn-eh0j7sq2ni39ng!=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['onrender.com']
 
 
 # Application definition
@@ -44,6 +44,12 @@ INSTALLED_APPS = [
     'jazzmin',
     'widget_tweaks',
     'riseup_templates',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.apple',
     # default apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -55,11 +61,61 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 ]
 
+SITE_ID = 1
+
+# Add authentication backends for allauth
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',  # Default backend
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
+]
+
+#ALLAUTH SETTINGS
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+
+#custom adapter for allauth
+ACCOUNT_ADAPTER = 'riseup.accounts.adapters.CustomSocialAccountAdapter'
+
+#provide specific settings for allauth
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,  # Enable PKCE for Google OAuth
+    },
+    'apple': {
+        'SCOPE': [
+            'name',
+            'email',
+        ],
+        'LOGIN_PARAMS': {
+            'response_mode': 'form_post',
+        },
+        # 'AUTH_PARAMS': {
+        #     'response_mode': 'form_post',
+        # },
+        # 'OAUTH_PKCE_ENABLED': True,  # Enable PKCE for Apple OAuth
+    },
+}
+
 # settings.py
 AUTH_USER_MODEL = 'accounts.Account' 
 
 LOGIN_URL = reverse_lazy('accounts:login')
 LOGIN_REDIRECT_URL = reverse_lazy('dashboard:dashboard')
+LOGOUT_REDIRECT_URL = reverse_lazy('accounts:login')
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
