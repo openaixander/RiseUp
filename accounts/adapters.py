@@ -28,7 +28,7 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
                 if not sociallogin.is_existing:
                     # Connect the social account to the existing user
                     sociallogin.connect(request, user)
-                    return redirect(reverse('dashboard:dashboard'))
+                    
             except User.DoesNotExist:
                 # If no user exists, allow the signup to proceed
                 pass

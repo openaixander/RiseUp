@@ -72,15 +72,14 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 #ALLAUTH SETTINGS
-ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_USERNAME_REQUIRED = False
-# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_USERNAME_REQUIRED = False # We use email for login
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory' # Or 'optional'
 
 #custom adapter for allauth
-ACCOUNT_ADAPTER = 'accounts.adapters.CustomSocialAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'accounts.adapters.CustomSocialAccountAdapter'
 
 #provide specific settings for allauth
 SOCIALACCOUNT_PROVIDERS = {
