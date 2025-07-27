@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-@zkn-eh0j7sq2ni39ng!=lf1tv-_j!8)%qwiujrpdixkr^zk_d')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['riseup.onrender.com', 'localhost',]
+ALLOWED_HOSTS = ['rise-up.onrender.com', 'localhost',]
 
 
 # Application definition
