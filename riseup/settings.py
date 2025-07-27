@@ -81,7 +81,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 # ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 
 #custom adapter for allauth
-ACCOUNT_ADAPTER = 'riseup.accounts.adapters.CustomSocialAccountAdapter'
+ACCOUNT_ADAPTER = 'accounts.adapters.CustomSocialAccountAdapter'
 
 #provide specific settings for allauth
 SOCIALACCOUNT_PROVIDERS = {
