@@ -1,4 +1,4 @@
-from allauth.socialaccount.adapters import DefaultSocialAccountAdapter
+from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.urls import reverse
