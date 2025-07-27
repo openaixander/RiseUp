@@ -28,13 +28,12 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-@zkn-eh0j7sq2ni39ng!=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['onrender.com']
+ALLOWED_HOSTS = ['riseup.onrender.com', 'localhost',]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-
     'accounts',
     'community',
     'challenge',
@@ -73,8 +72,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 #ALLAUTH SETTINGS
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGIN_METHODS = {'email'}
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_USERNAME_REQUIRED = False
