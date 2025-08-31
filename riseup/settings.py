@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'riseup_templates',
     'django.contrib.sites',
-    # 'allauth',
+    'allauth',
     # 'allauth.account',
     # 'allauth.socialaccount',
     # 'allauth.socialaccount.providers.google',
