@@ -44,11 +44,11 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'riseup_templates',
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.apple',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.apple',
     # default apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -60,51 +60,51 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 ]
 
-SITE_ID = 1
+# SITE_ID = 1
 
-# Add authentication backends for allauth
-AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',  # Default backend
+# # Add authentication backends for allauth
+# AUTHENTICATION_BACKENDS = [
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     'django.contrib.auth.backends.ModelBackend',  # Default backend
 
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
-]
+#     # `allauth` specific authentication methods, such as login by e-mail
+#     'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
+# ]
 
-#ALLAUTH SETTINGS
-ACCOUNT_LOGIN_METHOD = 'email' # Replaces ACCOUNT_AUTHENTICATION_METHOD
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_UNIQUE_EMAIL = True
+# #ALLAUTH SETTINGS
+# ACCOUNT_LOGIN_METHOD = 'email' # Replaces ACCOUNT_AUTHENTICATION_METHOD
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# ACCOUNT_UNIQUE_EMAIL = True
 
-#custom adapter for allauth
-SOCIALACCOUNT_ADAPTER = 'accounts.adapters.CustomSocialAccountAdapter'
+# #custom adapter for allauth
+# SOCIALACCOUNT_ADAPTER = 'accounts.adapters.CustomSocialAccountAdapter'
 
-#provide specific settings for allauth
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        },
-        'OAUTH_PKCE_ENABLED': True,  # Enable PKCE for Google OAuth
-    },
-    'apple': {
-        'SCOPE': [
-            'name',
-            'email',
-        ],
-        'LOGIN_PARAMS': {
-            'response_mode': 'form_post',
-        },
-        # 'AUTH_PARAMS': {
-        #     'response_mode': 'form_post',
-        # },
-        # 'OAUTH_PKCE_ENABLED': True,  # Enable PKCE for Apple OAuth
-    },
-}
+# #provide specific settings for allauth
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online',
+#         },
+#         'OAUTH_PKCE_ENABLED': True,  # Enable PKCE for Google OAuth
+#     },
+#     'apple': {
+#         'SCOPE': [
+#             'name',
+#             'email',
+#         ],
+#         'LOGIN_PARAMS': {
+#             'response_mode': 'form_post',
+#         },
+#         # 'AUTH_PARAMS': {
+#         #     'response_mode': 'form_post',
+#         # },
+#         # 'OAUTH_PKCE_ENABLED': True,  # Enable PKCE for Apple OAuth
+#     },
+# }
 
 # settings.py
 AUTH_USER_MODEL = 'accounts.Account' 
@@ -120,7 +120,7 @@ AUTHENTICATION_BACKENDS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', 
-    'allauth.account.middleware.AccountMiddleware',
+    # 'allauth.account.middleware.AccountMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
