@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-@zkn-eh0j7sq2ni39ng!=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['rise-up.onrender.com', 'localhost',]
+ALLOWED_HOSTS = ['rise-up-eeln.onrender.com', 'localhost',]
 
 
 # Application definition
@@ -72,11 +72,9 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 #ALLAUTH SETTINGS
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGIN_METHOD = 'email' # Replaces ACCOUNT_AUTHENTICATION_METHOD
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False # We use email for login
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory' # Or 'optional'
 
 #custom adapter for allauth
 SOCIALACCOUNT_ADAPTER = 'accounts.adapters.CustomSocialAccountAdapter'

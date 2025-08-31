@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.forms import SetPasswordForm
 from django.utils.translation import gettext_lazy as _
 from .models import Account, UserProfile
-import pytz
 
 
 class RegistrationForm(forms.ModelForm):
